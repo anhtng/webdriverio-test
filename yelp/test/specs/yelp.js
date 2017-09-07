@@ -1,5 +1,13 @@
 var assert = require('assert');
 
+var util = require('util'),
+    events = require('events');
+
+//var CustomReporter = function(options) {
+//    options.cid=100;
+//    options.capabilities}=200;
+//};
+
 var search1 = "Restaraunts";
 var search2 = "pizza";
 var config = require('config')
@@ -17,6 +25,7 @@ program
   .parse(process.argv);
 search1 = program.search1;
 search2 = program.search2;
+
 
 var searchResult = "";
 describe('yelp.com page', function() {

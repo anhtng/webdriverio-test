@@ -16,6 +16,11 @@ exports.config = {
     exclude: [
         // 'path/to/excluded/files'
     ],
+    suites: {
+        anh: [
+            './test/specs/yelp.js',
+        ]
+    },
     //
     // ============
     // Capabilities
@@ -118,7 +123,22 @@ exports.config = {
     // Test reporter for stdout.
     // The only one supported by default is 'dot'
     // see also: http://webdriver.io/guide/testrunner/reporters.html
-    reporters: ['dot'],
+    reporters: ['spec','junit'],
+    reporterOptions: {
+        outputDir: 'reports/',
+        junit: {
+            outputDir: 'reports/',
+            outputFileFormat: function(opts) { // optional
+                return `results-${opts.cid}.${opts.capabilities}.xml`
+            }
+        },
+        sumologic: {    
+            // define sync interval how often logs get pushed to Sumologic 
+            syncInterval: 100,
+            // endpoint of collector source 
+            sourceAddress: process.env.SUMO_SOURCE_ADDRESS
+        }
+    },
     
     //
     // Options to be passed to Mocha.

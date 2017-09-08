@@ -1,0 +1,19 @@
+{
+  "name": "yelp",
+  "description": "Yelp testing",
+  "version": "1.0.0",
+  "engines": {
+    "node": "*",
+    "npm": "*"
+  },
+  "private": true,
+  "dependencies": {
+    "config" : "*",
+    "js-yaml" : "*",
+    "commander" : "*",
+    "webdriverio" : "*",
+    "wdio-spec-reporter" : "*",
+    "wdio-mocha-framework" : "*",
+    "wdio-junit-reporter" : "*"
+  }
+} 

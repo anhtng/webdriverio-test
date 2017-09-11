@@ -16,6 +16,7 @@ exports.config = {
     exclude: [
         // 'path/to/excluded/files'
     ],
+    services: ['selenium-standalone'],
     suites: {
         anh: [
             './test/specs/yelp.js',
@@ -43,12 +44,18 @@ exports.config = {
     // Sauce Labs platform configurator - a great tool to configure your capabilities:
     // https://docs.saucelabs.com/reference/platforms-configurator
     //
-    capabilities: [{
+    capabilities: [
+//    { browserName: "firefox"},
+    {
         // maxInstances can get overwritten per capability. So if you have an in-house Selenium
         // grid with only 5 firefox instances available you can make sure that not more than
         // 5 instances get started at a time.
         maxInstances: 5,
         //
+        chromeOptions: {
+            args: ['--headless', '--disable-gpu', '--window-size=1280,800'],
+            binary: '/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
+        },
         browserName: 'chrome'
     }],
     //

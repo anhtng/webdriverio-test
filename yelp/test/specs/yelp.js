@@ -1,3 +1,4 @@
+var debug = require('debug');
 var assert = require('assert');
 
 var util = require('util'),
@@ -17,19 +18,41 @@ if (mainScr != null) {
     search2 = mainScr.get("searches")[1];
 }
 
+if (config.browser == null) config.browser = 'chrome';
 var program = require('commander');
 program
   .version('0.1.0')
   .option('-m --search1 [main]', 'Main search category',search1) 
   .option('-s --search2 [secondary]', 'Add secondary search string',search2) 
+  .option('-h --headless <browser>', 'Run as head less',config.headless) 
+  .option('-b --browser [browser]', 'Run as head less',config.browser) 
   .parse(process.argv);
 search1 = program.search1;
 search2 = program.search2;
 
+var hash = require('node-object-hash');
+var options = {};
+if (program.browser != null ) {
+   options.browserName = program.browser;
+}
+var path = "";
+if (program.headless != null) {
+    program.browser = program.headless;
+    path = config.browsers.find(o => o.name === program.browser).headlessPath[process.platform];
+    if (path != null) {
+        options.browserName = program.headless;
+        options.desiredCapabilities = {
+            binary : path,
+            args : ['headless','disabled-gnua']
+        }
+    }
+}
+console.log("platflorm="+process.platform+" headlessPath="+path);
 
 var searchResult = "";
 describe('yelp.com page', function() {
     it('should have the right title - the fancy generator way', function () {
+        //browser.remote(options);
         browser.url(config.get("url"));
         var title = browser.getTitle();
         assert.ok(title.indexOf('Restaurants, Dentists, Bars, Beauty Salons, Doctors - Yelp') > -1,'You are not on Yelp home page');
@@ -87,7 +110,7 @@ describe('yelp.com page', function() {
     });
     it('First page results star rating', function() {
         var results = browser.elements(mainScr.get("fields.resultsContent.xpath"))
-        console.log("Number of records found " + results.length);
+        console.log("Number of records found " + results.value.length);
         var i = 0;
         results.value.forEach(function(elem){
            var bzname = i + " UNKNOW BUSINESS NAME";

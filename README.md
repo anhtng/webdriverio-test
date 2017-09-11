@@ -4,7 +4,7 @@
 # http://webdriver.io/
 # http://webdriver.io/guide.html
 
-# Setup:
+# Setup:  Use "npm update"
 export PREFIX="--prefix ."
 npm install $PREFIX config 
 npm install $PREFIX js-yaml
@@ -18,7 +18,7 @@ npm install $PREFIX wdio-mocha-framework
 npm install $PREFIX wdio-junit-reporter
 junit-viewer --results=yelp/reports --port=9000
 
-npm install $PREFIX wdio-sumologic-reporter
+# npm install $PREFIX wdio-sumologic-reporter
 
 # Install Chrome driver https://sites.google.com/a/chromium.org/chromedriver/downloads
 
@@ -32,8 +32,7 @@ java -jar -Dwebdriver.gecko.driver=geckodriver selenium-server-standalone-3.5.2.
 # Run Yelp tests:
 cd yelp
 # Run test with config/yelp.yml
-export NODE_ENV=yelp
-../node_modules/.bin/wdio wdio.conf.js
+NODE_ENV=yelp ../node_modules/.bin/wdio wdio.conf.js
 # Override search parameters in wdio.conf.js
 export NODE_ENV=yelp
 ../node_modules/.bin/wdio wdio.conf.js --search2=chinese

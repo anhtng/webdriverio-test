@@ -1,0 +1,35 @@
+url : "https://www.yelp.com"
+headless: "chrome"
+browser: "chrome"
+browsers: 
+  - name: "chrome"
+    headlessPath: 
+      darwin: '/Applications/Google Chrome Dev.app/Contents/MacOS/Google Chrome'
+  - name: "firefox"
+screens : 
+  main : 
+    searches :
+      - Restaurants
+      - pizza
+    filters:
+      - name : 'price $$'  
+        xpath : '//div[contains(@class,"price-filters")]/ul/li[contains(.,"$$")]/label/input'
+      - name : 'first feature' 
+        xpath : '//div[contains(@class,"feature-filters")]/ul/li[1]/label/input'
+    filters-xpath:
+      - '//div[contains(@class,"price-filters")]/ul/li[contains(.,"$$")]/label/input'
+      - '//div[contains(@class,"feature-filters")]/ul/li[1]/label/input'
+    fields : 
+      resultsSummary : 
+        xpath : ".pagination-results-window"
+      resultsContent : 
+        xpath : '//div[@class="search-results-content"]/ul[2]/li'
+      filters: 
+        xpath : '//ul[@class="suggested-filters_filter-list"]/li[contains(., "All Filters")]'
+  detail : 
+    fields : 
+      reviews :
+        xpath : '//div[@class="review-list"]/ul/li'
+      reviewText: 
+        backxpath : '//div/div[2]/div[1]'
+        xpath : '//div/div[@class="review-wrapper"]/div[@class="review-content"]'

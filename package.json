@@ -8,12 +8,20 @@
   },
   "private": true,
   "dependencies": {
+    "dumper" : "*",
     "config" : "*",
     "js-yaml" : "*",
     "commander" : "*",
     "webdriverio" : "*",
+    "geckodriver" : "*",
     "wdio-spec-reporter" : "*",
     "wdio-mocha-framework" : "*",
-    "wdio-junit-reporter" : "*"
+    "wdio-junit-reporter" : "*",
+    "wdio-selenium-standalone-service" : "*"
+  },
+  "devDependencies" : {
+    "frisby" : "*",
+    "supertest" : "*",
+    "express" : "*"
   }
-} 
+}

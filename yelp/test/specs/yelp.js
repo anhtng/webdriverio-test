@@ -30,7 +30,6 @@ program
 search1 = program.search1;
 search2 = program.search2;
 
-var hash = require('node-object-hash');
 var options = {};
 if (program.browser != null ) {
    options.browserName = program.browser;

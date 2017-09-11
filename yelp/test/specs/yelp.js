@@ -68,7 +68,7 @@ describe('yelp.com page', function() {
             console.log("Link "+search1+ " does not exists.  Will use input box for ", browser.getValue('input#find_desc') + " search");
             browser.setValue('input#find_desc', search1+"\n");
             browser.click('#header-search-submit');
-            assert.ok(browser.getTitle().indexOf(search1) > 0,'You are not on Yelp '+search1+' result page.  '+browser.getTitle());
+            assert.ok(browser.getTitle().indexOf(search1) >= 0,'You are not on Yelp "'+search1+'" result page.  '+browser.getTitle());
         }
         else {
             console.error("Cannot search by " + search1);

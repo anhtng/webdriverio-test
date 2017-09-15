@@ -1,0 +1,382 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Yelp",
+		"_postman_id": "58fc7b45-b275-9ccf-9a44-fa5048caa518",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "search",
+			"description": "",
+			"item": []
+		},
+		{
+			"name": "Get access token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"auth\", jsonData.token_type + \" \" + jsonData.access_token);",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "https://{{api}}/oauth2/token",
+				"method": "POST",
+				"header": [
+					{
+						"key": "content-type",
+						"value": "application/x-www-form-urlencoded",
+						"description": ""
+					},
+					{
+						"key": "cache-control",
+						"value": "no-cache",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "client_id",
+							"value": "fwvzmf1V1VrcXxqH5OjUDw",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "WQnl8QZuaOuV4VMPxg68dYv3B6p4epSDmIM2SDV6gCslYmKOtICzRpMDuoaD22CX",
+							"description": "",
+							"type": "text"
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get business by category",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"console.log(\"Number of businesses with search requirements is \"+jsonData.total)",
+							"tests[\"Number of businesses is greater than zero for \"+postman.getEnvironmentVariable('term')] = jsonData.total > 200;",
+							"postman.setEnvironmentVariable(\"nbusinesses\",jsonData.total);"
+						]
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"postman.setEnvironmentVariable('term',postman.getEnvironmentVariable('category'))"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": {
+					"raw": "https://{{api}}/{{version}}/search?term={{term}}&location=San%20Jose%2C%20CA",
+					"protocol": "https",
+					"host": [
+						"{{api}}"
+					],
+					"path": [
+						"{{version}}",
+						"search"
+					],
+					"query": [
+						{
+							"key": "term",
+							"value": "{{term}}",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "location",
+							"value": "San%20Jose%2C%20CA",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{auth}}",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get business by category plus type",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"console.log(\"Number of businnesses with search requirements is \"+jsonData.total)",
+							"tests[\"Number of businesses is greater than zero for \"+postman.getEnvironmentVariable('term')] = jsonData.total > 200;",
+							"tests[\"Make sure that number of businesses is less previous\"] = jsonData.total > 200;",
+							"postman.setEnvironmentVariable(\"nbusinesses\",jsonData.total);"
+						]
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"postman.setEnvironmentVariable('term',postman.getEnvironmentVariable('category')+\" - \"+postman.getEnvironmentVariable('category2'))"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": {
+					"raw": "https://{{api}}/{{version}}/search?term={{term}}&location=San%20Jose%2C%20CA",
+					"protocol": "https",
+					"host": [
+						"{{api}}"
+					],
+					"path": [
+						"{{version}}",
+						"search"
+					],
+					"query": [
+						{
+							"key": "term",
+							"value": "{{term}}",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "location",
+							"value": "San%20Jose%2C%20CA",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{auth}}",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get business by category plus type and filter price",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"console.log(\"Number of businnesses with search requirements is \"+jsonData.total)",
+							"tests[\"Number of businesses is greater than zero for \"+postman.getEnvironmentVariable('term')+\", price is \"+postman.getEnvironmentVariable('price')] = jsonData.total > 200;",
+							"tests[\"Make sure that number of businesses is less previous\"] = jsonData.total > 200;",
+							"postman.setEnvironmentVariable(\"nbusinesses\",jsonData.total);"
+						]
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"postman.setEnvironmentVariable('term',postman.getEnvironmentVariable('category')+\" - \"+postman.getEnvironmentVariable('category2'))"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": {
+					"raw": "https://{{api}}/{{version}}/search?term={{term}}&location=San%20Jose%2C%20CA&price={{price}}",
+					"protocol": "https",
+					"host": [
+						"{{api}}"
+					],
+					"path": [
+						"{{version}}",
+						"search"
+					],
+					"query": [
+						{
+							"key": "term",
+							"value": "{{term}}",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "location",
+							"value": "San%20Jose%2C%20CA",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "price",
+							"value": "{{price}}",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{auth}}",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get open now business by category plus type and filter price",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"console.log(\"Number of businnesses with search requirements is \"+jsonData.total)",
+							"tests[\"Number of businesses is greater than zero for \"+postman.getEnvironmentVariable('term')+\", price is \"+postman.getEnvironmentVariable('price')] = jsonData.total > 200;",
+							"tests[\"Make sure that number of businesses is less previous\"] = jsonData.total > 200;",
+							"postman.setEnvironmentVariable(\"nbusinesses\",jsonData.total);"
+						]
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"postman.setEnvironmentVariable('term',postman.getEnvironmentVariable('category')+\" - \"+postman.getEnvironmentVariable('category2'))"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": {
+					"raw": "https://{{api}}/{{version}}/search?term={{term}}&location=San%20Jose%2C%20CA&price={{price}}&open_now=true",
+					"protocol": "https",
+					"host": [
+						"{{api}}"
+					],
+					"path": [
+						"{{version}}",
+						"search"
+					],
+					"query": [
+						{
+							"key": "term",
+							"value": "{{term}}",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "location",
+							"value": "San%20Jose%2C%20CA",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "price",
+							"value": "{{price}}",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "open_now",
+							"value": "true",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{auth}}",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

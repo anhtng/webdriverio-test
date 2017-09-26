@@ -1,5 +1,13 @@
-# webdriverio-test
+#*********************  Yelp Automation Tests ***************************
 
+######## API Tests ##########
+# Setup:
+npm install -g newman
+# Run Yelp API Tests
+cd yelp
+newman run -r junit -e collections/Yelp\ Enterpise\ V3.postman_environment.json  collections/Yelp.postman_collection.json
+
+######## webdriverio-test ###########
 # Related Links:
 # http://webdriver.io/
 # http://webdriver.io/guide.html

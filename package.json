@@ -1,5 +1,5 @@
 {
-  "name": "yelp",
+  "name": "api",
   "description": "Yelp testing",
   "version": "1.0.0",
   "engines": {
@@ -20,6 +20,7 @@
     "wdio-selenium-standalone-service" : "*"
   },
   "devDependencies" : {
+    "restify" : "*",
     "frisby" : "*",
     "supertest" : "*",
     "express" : "*"

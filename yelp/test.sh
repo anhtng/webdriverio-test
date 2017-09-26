@@ -12,5 +12,5 @@ set +e
 set -e
 
 # API tests
-newman run -e collections/Yelp\ Enterpise\ V3.postman_environment.json  collections/Yelp.postman_collection.json –r junit
+newman run -r junit -e collections/Yelp\ Enterpise\ V3.postman_environment.json  collections/Yelp.postman_collection.json 
 mv newman/* reports

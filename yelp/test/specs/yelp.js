@@ -49,7 +49,7 @@ if (program.headless != null) {
 console.log("platflorm="+process.platform+" headlessPath="+path);
 
 var searchResult = "";
-describe('yelp.com page', function() {
+describe('Search yelp.com: ' + search1 + ' - ' + search2, function() {
     it('should have the right title - the fancy generator way', function () {
         //browser.remote(options);
         browser.url(config.get("url"));

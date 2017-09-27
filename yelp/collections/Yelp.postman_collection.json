@@ -81,7 +81,7 @@
 							"",
 							"tests[\"Status code is 200\"] = responseCode.code === 200;",
 							"console.log(\"Number of businesses with search requirements is \"+jsonData.total)",
-							"tests[\"Number of businesses is greater than zero for \"+postman.getEnvironmentVariable('term')] = jsonData.total > 200;",
+							"tests[\"Number of businesses is greater than zero for \"+postman.getEnvironmentVariable('term')] = jsonData.total > 0;",
 							"postman.setEnvironmentVariable(\"nbusinesses\",jsonData.total);"
 						]
 					}
@@ -153,8 +153,8 @@
 							"",
 							"tests[\"Status code is 200\"] = responseCode.code === 200;",
 							"console.log(\"Number of businnesses with search requirements is \"+jsonData.total)",
-							"tests[\"Number of businesses is greater than zero for \"+postman.getEnvironmentVariable('term')] = jsonData.total > 200;",
-							"tests[\"Make sure that number of businesses is less previous\"] = jsonData.total > 200;",
+							"tests[\"Number of businesses is greater than zero for \"+postman.getEnvironmentVariable('term')] = jsonData.total > 0;",
+							"tests[\"Make sure that number of businesses is less previous\"] = jsonData.total < postman.getEnvironmentVariable('nbusinesses');",
 							"postman.setEnvironmentVariable(\"nbusinesses\",jsonData.total);"
 						]
 					}
@@ -226,8 +226,8 @@
 							"",
 							"tests[\"Status code is 200\"] = responseCode.code === 200;",
 							"console.log(\"Number of businnesses with search requirements is \"+jsonData.total)",
-							"tests[\"Number of businesses is greater than zero for \"+postman.getEnvironmentVariable('term')+\", price is \"+postman.getEnvironmentVariable('price')] = jsonData.total > 200;",
-							"tests[\"Make sure that number of businesses is less previous\"] = jsonData.total > 200;",
+							"tests[\"Number of businesses is greater than zero for \"+postman.getEnvironmentVariable('term')+\", price is \"+postman.getEnvironmentVariable('price')] = jsonData.total > 0;",
+							"tests[\"Make sure that number of businesses is less previous\"] = jsonData.total < postman.getEnvironmentVariable('nbusinesses');",
 							"postman.setEnvironmentVariable(\"nbusinesses\",jsonData.total);"
 						]
 					}
@@ -305,9 +305,9 @@
 							"",
 							"tests[\"Status code is 200\"] = responseCode.code === 200;",
 							"console.log(\"Number of businnesses with search requirements is \"+jsonData.total)",
-							"tests[\"Number of businesses is greater than zero for \"+postman.getEnvironmentVariable('term')+\", price is \"+postman.getEnvironmentVariable('price')] = jsonData.total > 200;",
-							"tests[\"Make sure that number of businesses is less previous\"] = jsonData.total > 200;",
-							"postman.setEnvironmentVariable(\"nbusinesses\",jsonData.total);"
+							"tests[\"Number of businesses is greater than zero for '\"+postman.getEnvironmentVariable('term')+\"', price is \"+postman.getEnvironmentVariable('price')] = jsonData.total > 0;",
+							"tests[\"Make sure that number of businesses is less previous\"] = jsonData.total < postman.getEnvironmentVariable('nbusinesses');",
+							""
 						]
 					}
 				},

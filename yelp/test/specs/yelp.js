@@ -50,18 +50,18 @@ if (program.headless != null) {
 }
 console.log("platflorm="+process.platform+" headlessPath="+path);
 
-describe('yelp.com:' + search1 + ' - ' + search2, function() {
+describe('Search yelp.com '+search1+' - '+search2, function() {
     var searchResult = "";
-    describe('#main',     function() {
+//    describe('#main()',     function() {
         it(("000"+iTest++).slice(-4) + ': should have the right title - the fancy generator way', function () {
             //browser.remote(options);
             browser.url(config.get("url"));
             var title = browser.getTitle();
             assert.ok(title.indexOf('Restaurants, Dentists, Bars, Beauty Salons, Doctors - Yelp') > -1,'You are not on Yelp home page');
         });
-    });
+//    });
     var xpathFilters = mainScr.get("fields.filters.xpath");
-    describe('#indexSearch', function() {
+//    describe('#indexSearch()', function() {
         it(("000"+iTest++).slice(-4) + ': Search by category: '+search1, function () {
             var search = search1 + ' - ';
             if (browser.isExisting('.homepage-hero_link='+search1) ) {
@@ -79,9 +79,9 @@ describe('yelp.com:' + search1 + ' - ' + search2, function() {
                 console.error("Cannot search by " + search1);
             }
         });
-    });
+//    });
     var search = search1 + ' - ' + search2;
-    describe('#descriptionSearch', function() {
+//    describe('#descriptionSearch()', function() {
         it(("000"+iTest++).slice(-4) + ': Search by description: '+search, function () {
             browser.setValue('input#find_desc', search);
             browser.click('#header-search-submit');
@@ -95,8 +95,8 @@ describe('yelp.com:' + search1 + ' - ' + search2, function() {
             browser.click(xpathFilters);
             searchResult = browser.getText('.pagination-results-window')
         });
-    });
-    describe('#applyFilters',     function() {
+//    });
+//    describe('#applyFilters()',     function() {
         mainScr.get("filters").forEach(function(filter) {
             it(("000"+iTest++).slice(-4) + ': Do Filter - '+filter.name, function () {
                 console.log("Applying filter '"+filter.name+"'");
@@ -107,8 +107,8 @@ describe('yelp.com:' + search1 + ' - ' + search2, function() {
                 searchResult = browser.getText('.pagination-results-window');
             });
         });
-    });
-    describe('#printPage',     function() {
+//    });
+//    describe('#printPage()',     function() {
         it(("000"+iTest++).slice(-4) + ': What is results', function() {
             browser.waitForVisible(mainScr.get("fields.resultsSummary.xpath"),5000);
             searchResult = browser.getText('.pagination-results-window');
@@ -136,11 +136,11 @@ describe('yelp.com:' + search1 + ' - ' + search2, function() {
             });
             businessName = browser.element(mainScr.get("fields.resultsContent.xpath") + '[1]').element('.biz-name').getText('span');
         });
-    });
-});
-describe('Detail',     function() {
+//    });
+//});
+//describe('Detail of Search',     function() {
     var detailScr = config.get("screens.detail");
-    describe('#summary()',     function() {
+//    describe('#summary()',     function() {
         it(("000"+iTest++).slice(-4) + ': Get item Detail', function() {
             var elem = browser.element(mainScr.get("fields.resultsContent.xpath") + '[1]');
             var bznameElem = elem.element('.biz-name');
@@ -152,8 +152,8 @@ describe('Detail',     function() {
             }, 10000, 'Detail page is not getting load.');
             assert.equal(browser.getTitle().indexOf(bzname),0,'You are not at '+bzname+' page.');
         });
-    });
-    describe('#reviews()',     function() {
+//    });
+//    describe('#reviews()',     function() {
         it(("000"+iTest++).slice(-4) + ': Create XML file', function() {
             var XMLWriter = require('xml-writer');
             var fs = require('fs');
@@ -195,5 +195,5 @@ describe('Detail',     function() {
             xw.endDocument();
             ws.end();
         });
-    });
+//    });
 });

@@ -14,6 +14,7 @@
     "commander" : "*",
     "webdriverio" : "*",
     "geckodriver" : "*",
+    "xml-writer" : "*",
     "wdio-spec-reporter" : "*",
     "wdio-mocha-framework" : "*",
     "wdio-junit-reporter" : "*",

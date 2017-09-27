@@ -51,14 +51,14 @@ console.log("platflorm="+process.platform+" headlessPath="+path);
 describe('Search yelp.com: ' + search1 + ' - ' + search2, function() {
     var searchResult = "";
     var iTest = 1;
-    it(("000"+iTest++).slice(-4) + '. should have the right title - the fancy generator way', function () {
+    it(("000"+iTest++).slice(-4) + ': should have the right title - the fancy generator way', function () {
         //browser.remote(options);
         browser.url(config.get("url"));
         var title = browser.getTitle();
         assert.ok(title.indexOf('Restaurants, Dentists, Bars, Beauty Salons, Doctors - Yelp') > -1,'You are not on Yelp home page');
     });
     var xpathFilters = mainScr.get("fields.filters.xpath");
-    it(("000"+iTest++).slice(-4) + '. Search by category: '+search1, function () {
+    it(("000"+iTest++).slice(-4) + ': Search by category: '+search1, function () {
         var search = search1 + ' - ';
         if (browser.isExisting('.homepage-hero_link='+search1) ) {
             browser.click('.homepage-hero_link='+search1);
@@ -76,7 +76,7 @@ describe('Search yelp.com: ' + search1 + ' - ' + search2, function() {
         }
     });
     var search = search1 + ' - ' + search2;
-    it(("000"+iTest++).slice(-4) + '. Search by description: '+search, function () {
+    it(("000"+iTest++).slice(-4) + ': Search by description: '+search, function () {
         browser.setValue('input#find_desc', search);
         browser.click('#header-search-submit');
         browser.waitUntil(function () {
@@ -90,7 +90,7 @@ describe('Search yelp.com: ' + search1 + ' - ' + search2, function() {
         searchResult = browser.getText('.pagination-results-window')
     });
     mainScr.get("filters").forEach(function(filter) {
-        it(("000"+iTest++).slice(-4) + '. Do Filter: '+filter.name, function () {
+        it(("000"+iTest++).slice(-4) + ': Do Filter - '+filter.name, function () {
             console.log("Applying filter '"+filter.name+"'");
             browser.click(filter.xpath);
             browser.waitUntil(function () {
@@ -99,7 +99,7 @@ describe('Search yelp.com: ' + search1 + ' - ' + search2, function() {
             searchResult = browser.getText('.pagination-results-window');
         });
     });
-    it(("000"+iTest++).slice(-4) + '. What is results', function() {
+    it(("000"+iTest++).slice(-4) + ': What is results', function() {
         browser.waitForVisible(mainScr.get("fields.resultsSummary.xpath"),5000);
         searchResult = browser.getText('.pagination-results-window');
         // Look for number of results found in 'Showing 1-10 of 1725'
@@ -108,7 +108,7 @@ describe('Search yelp.com: ' + search1 + ' - ' + search2, function() {
         console.log('There are '+nFound[2]+' places found from search');
         console.log('Current page has '+nFound[1]+' records');
     });
-    it(("000"+iTest++).slice(-4) + '. Show first page results star rating', function() {
+    it(("000"+iTest++).slice(-4) + ': Show first page results star rating', function() {
         var results = browser.elements(mainScr.get("fields.resultsContent.xpath"))
         console.log("Number of records found " + results.value.length);
         var i = 0;
@@ -126,10 +126,11 @@ describe('Search yelp.com: ' + search1 + ' - ' + search2, function() {
         });
     });
     var detailScr = config.get("screens.detail");
-    var elem = browser.element(mainScr.get("fields.resultsContent.xpath") + '[1]');
-    var bznameElem = elem.element('.biz-name');
-    var bzname = bznameElem.getText('span');
-    it(("000"+iTest++).slice(-4) + '. Get item Detail for '+bzname, function() {
+    it(("000"+iTest++).slice(-4) + '. Get item Detail for ', function() {
+        var elem = browser.element(mainScr.get("fields.resultsContent.xpath") + '[1]');
+        var bznameElem = elem.element('.biz-name');
+        var bzname = bznameElem.getText('span');
+        console.log("Anh "+bzname);
         bznameElem.click();
         browser.waitUntil(function () {
             return browser.getTitle().indexOf(bzname) == 0;

@@ -15,6 +15,7 @@
     "webdriverio" : "*",
     "geckodriver" : "*",
     "xml-writer" : "*",
+    "newman" : "*",
     "wdio-spec-reporter" : "*",
     "wdio-mocha-framework" : "*",
     "wdio-junit-reporter" : "*",

@@ -17,8 +17,8 @@ newman.run({
     reporters: ['cli','junit','json','html'],
     environment: require('./Yelp Enterpise V3.postman_environment.json')
 }).on('start', function (err, args) {
-    debug = fs.createWriteStream('debug.yaml');
-    ws = fs.createWriteStream('debug.xml');
+    debug = fs.createWriteStream('debug-api.yaml');
+    ws = fs.createWriteStream('debug-api.xml');
     if (ws) {
         xw.startDocument();
         xw.startElement('testsuites');

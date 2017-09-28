@@ -1,7 +1,9 @@
 #!/bin/sh
 
 # API tests
+set +e
 node collections/run.js
+set -e
 mv newman/* debug.xml reports
 
 NODE_ENV=yelp ../node_modules/.bin/wdio wdio.conf.js --spec ./test/specs/yelp.js

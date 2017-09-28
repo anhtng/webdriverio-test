@@ -56,7 +56,7 @@ exports.config = {
         // 5 instances get started at a time.
         maxInstances: 5,
         //
-        chromeadfOptions: {
+        chromeOptions: {
             args: ['--headless', '--disable-gpu', '--window-size=1280,800'],
             binary: '/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
         },

@@ -1,5 +1,6 @@
 var debug = require('debug');
 var assert = require('assert');
+var fs = require('fs');
 
 var util = require('util'),
     events = require('events');
@@ -9,6 +10,8 @@ var util = require('util'),
 //    options.capabilities}=200;
 //};
 
+var curTime = Math.floor(Date.now() / 1000);
+var captureFile;
 var search1 = "Restaraunts";
 var search2 = "pizza";
 var config = require('config')
@@ -76,7 +79,8 @@ describe('Search yelp.com '+search1+' - '+search2, function() {
                 assert.ok(browser.getTitle().indexOf(search1) >= 0,'You are not on Yelp "'+search1+'" result page.  '+browser.getTitle());
             }
             else {
-                console.error("Cannot search by " + search1);
+                captureFile = "reports/capture-"+(curTime++)+".jpg";
+                console.error("Cannot search by " + search1 + ".  Save screen to " + captureFile+(fs.writeFileSync(captureFile,browser.saveScreenshot())===undefined?"":""));
             }
         });
 //    });
@@ -85,9 +89,10 @@ describe('Search yelp.com '+search1+' - '+search2, function() {
         it(("000"+iTest++).slice(-4) + ': Search by description: '+search, function () {
             browser.setValue('input#find_desc', search);
             browser.click('#header-search-submit');
+            captureFile = "reports/capture-"+(curTime++)+".jpg";
             browser.waitUntil(function () {
                 return browser.getTitle().indexOf('Best '+search) == 0;
-            }, 10000, 'expected page to be ' + search + ' in 10s');
+            }, 10000, 'expected page to be ' + search + ' in 10s.  Save screen capture to ' + captureFile+(fs.writeFileSync(captureFile,browser.saveScreenshot())===undefined?"":""));
             assert.equal(browser.getTitle().indexOf('Best '+search),0,'You are not Yelp ' + search + ' result page');
             var elem = browser.element('[name="find_loc"]');
             console.log("Search location is "+browser.getValue('[name="find_loc"]'));
@@ -101,9 +106,10 @@ describe('Search yelp.com '+search1+' - '+search2, function() {
             it(("000"+iTest++).slice(-4) + ': Do Filter - '+filter.name, function () {
                 console.log("Applying filter '"+filter.name+"'");
                 browser.click(filter.xpath);
+                captureFile = "reports/capture-"+(curTime++)+".jpg";
                 browser.waitUntil(function () {
                     return browser.getText('.pagination-results-window') !== searchResult;
-                }, 10000, 'Filter price is not getting selected.');
+                }, 10000, 'Filter price is not getting selected.' + captureFile+(fs.writeFileSync(captureFile,browser.saveScreenshot())===undefined?"":""));
                 searchResult = browser.getText('.pagination-results-window');
             });
         });
@@ -147,16 +153,16 @@ describe('Search yelp.com '+search1+' - '+search2, function() {
             var bzname = bznameElem.getText('span');
             console.log("Anh "+bzname+" "+businessName);
             bznameElem.click();
+            captureFile = "reports/capture-"+(curTime++)+".jpg";
             browser.waitUntil(function () {
                 return browser.getTitle().indexOf(bzname) == 0;
-            }, 10000, 'Detail page is not getting load.');
+            }, 10000, 'Detail page is not getting load.' + captureFile+(fs.writeFileSync(captureFile,browser.saveScreenshot())===undefined?"":""));
             assert.equal(browser.getTitle().indexOf(bzname),0,'You are not at '+bzname+' page.');
         });
 //    });
 //    describe('#reviews()',     function() {
         it(("000"+iTest++).slice(-4) + ': Create XML file', function() {
             var XMLWriter = require('xml-writer');
-            var fs = require('fs');
             var ws = fs.createWriteStream(businessName+'.xml');
             ws.on('close', function() {
                 console.log(fs.readFileSync(businessName+'.xml'));

@@ -8,23 +8,25 @@
   },
   "private": true,
   "dependencies": {
-    "dumper" : "*",
-    "config" : "*",
-    "js-yaml" : "*",
-    "commander" : "*",
-    "webdriverio" : "*",
-    "geckodriver" : "*",
-    "xml-writer" : "*",
-    "newman" : "*",
-    "wdio-spec-reporter" : "*",
-    "wdio-mocha-framework" : "*",
-    "wdio-junit-reporter" : "*",
-    "wdio-selenium-standalone-service" : "*"
+    "dumper": "*",
+    "config": "*",
+    "js-yaml": "*",
+    "commander": "*",
+    "webdriverio": "*",
+    "geckodriver": "*",
+    "xml-writer": "*",
+    "newman": "*",
+    "wdio-spec-reporter": "*",
+    "wdio-mocha-framework": "*",
+    "wdio-junit-reporter": "*",
+    "wdio-json-reporter": "*",
+    "wdio-selenium-standalone-service": "*"
   },
-  "devDependencies" : {
-    "restify" : "*",
-    "frisby" : "*",
-    "supertest" : "*",
-    "express" : "*"
+  "devDependencies": {
+    "express": "*",
+    "frisby": "*",
+    "restify": "*",
+    "supertest": "*",
+    "wdio-cucumber-framework": "*"
   }
 }

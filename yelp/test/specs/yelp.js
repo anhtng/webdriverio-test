@@ -75,7 +75,7 @@ describe('Search yelp.com '+search1+' via link', function() {
                 assert.ok(browser.getTitle().indexOf(search1) >= 0,"Title does not contained '"+search1+"'.  Actual title is '"+browser.getTitle()+"'");
             }
             else {
-                captureFile = "reports/capture-"+(curTime++)+".jpg";
+                captureFile = "reports/error_"+(curTime++)+".png";
                 console.error("Cannot search by " + search1 + ".  Save screen to " + captureFile+(fs.writeFileSync(captureFile,browser.saveScreenshot())===undefined?"":""));
             }
         });
@@ -97,7 +97,7 @@ describe("Search yelp.com '"+search1+" - "+search2 + "' via description with det
             var title = browser.getTitle();
             browser.setValue('input#find_desc', search);
             browser.click('#header-search-submit');
-            captureFile = "reports/capture-"+(curTime++)+".jpg";
+            captureFile = "reports/error_"+(curTime++)+".png";
             browser.waitUntil(
                 function () {
                     return browser.getTitle().indexOf('Best '+search) == 0;
@@ -117,7 +117,7 @@ describe("Search yelp.com '"+search1+" - "+search2 + "' via description with det
             it(("000"+iTest++).slice(-4) + ': Do Filter - '+filter.name, function () {
                 console.log("Applying filter '"+filter.name+"'");
                 browser.click(filter.xpath);
-                captureFile = "reports/capture-"+(curTime++)+".jpg";
+                captureFile = "reports/error_"+(curTime++)+".png";
                 browser.waitUntil(
                     function () {
                         return browser.getText('.pagination-results-window') !== searchResult;
@@ -162,7 +162,7 @@ describe("Search yelp.com '"+search1+" - "+search2 + "' via description with det
             var bzname = bznameElem.getText('span');
             console.log("Anh "+bzname+" "+businessName);
             bznameElem.click();
-            captureFile = "reports/capture-"+(curTime++)+".jpg";
+            captureFile = "reports/error_"+(curTime++)+".png";
             browser.waitUntil(
                 function () {
                     return browser.getTitle().indexOf(bzname) == 0;

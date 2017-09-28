@@ -4,7 +4,7 @@
 set +e
 node collections/run.js
 set -e
-mv newman/* debug.xml reports
+mv newman/* debug-api.xml reports
 
 NODE_ENV=yelp ../node_modules/.bin/wdio wdio.conf.js --spec ./test/specs/yelp.js
 mv reports/results-0-0.chrome.xml reports/pizza-0-0.chrome.xml

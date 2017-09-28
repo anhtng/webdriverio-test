@@ -13,5 +13,4 @@ set -e
 
 # API tests
 node collections/run.js
-newman run -r junit -e collections/Yelp\ Enterpise\ V3.postman_environment.json  collections/Yelp.postman_collection.json 
 mv newman/* debug.xml reports

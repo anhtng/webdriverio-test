@@ -1,6 +1,6 @@
-var CustomReporter = require('./js/reporter/Customreporter');
-var htmlReporter = require('./js/reporter/htmlReporter');
-htmlReporter.reporterName = 'htmlReporter';
+//var CustomReporter = require('./js/reporter/Customreporter');
+//var htmlReporter = require('./js/reporter/htmlReporter');
+//htmlReporter.reporterName = 'htmlReporter';
 
 exports.config = {
     

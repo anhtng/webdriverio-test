@@ -2,6 +2,7 @@
 
 # API tests
 set +e
+if [ -e reports ] ; then rm reports/* ; fi
 node collections/run.js
 set -e
 mv newman/* debug.xml reports

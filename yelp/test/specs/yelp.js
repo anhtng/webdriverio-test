@@ -102,8 +102,7 @@ describe("Search yelp.com '"+search1+" - "+search2 + "' via description with det
                 function () {
                     return browser.getTitle().indexOf('Best '+search) == 0;
                 }, 10000, 
-                "expected page to be '" + search + "' in 10s.  Save screen capture to " 
-                     + captureFile+(fs.writeFileSync(captureFile,browser.saveScreenshot())===undefined?"":"")
+                "expected page to be '" + search + "' in 10s." 
             );
             assert.equal(browser.getTitle().indexOf('Best '+search),0,"Title does not start with 'Best "+search);
             var elem = browser.element('[name="find_loc"]');
@@ -122,8 +121,7 @@ describe("Search yelp.com '"+search1+" - "+search2 + "' via description with det
                     function () {
                         return browser.getText('.pagination-results-window') !== searchResult;
                     }, 10000, 
-                    'Filter price is not getting selected.' 
-                        + captureFile+(fs.writeFileSync(captureFile,browser.saveScreenshot())===undefined?"":"")
+                    'Filter ' + filter.name + 'is not getting selected.' 
                 );
                 searchResult = browser.getText('.pagination-results-window');
                 bContinue = true;
@@ -168,7 +166,6 @@ describe("Search yelp.com '"+search1+" - "+search2 + "' via description with det
                     return browser.getTitle().indexOf(bzname) == 0;
                 }, 10000, 
                 'Detail page is not getting load.' 
-                    + captureFile+(fs.writeFileSync(captureFile,browser.saveScreenshot())===undefined?"":"")
             );
             assert.equal(browser.getTitle().indexOf(bzname),0,'You are not at '+bzname+' page.');
             var XMLWriter = require('xml-writer');

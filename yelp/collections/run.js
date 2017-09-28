@@ -14,7 +14,7 @@ var systemOut;
 // call newman.run to pass `options` object and wait for callback
 newman.run({
     collection: require('./Yelp.postman_collection.json'),
-    reporters: ['cli','junit'],
+    reporters: ['cli','junit','json','html'],
     environment: require('./Yelp Enterpise V3.postman_environment.json')
 }).on('start', function (err, args) {
     debug = fs.createWriteStream('debug.yaml');

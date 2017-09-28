@@ -304,7 +304,8 @@
 							"var jsonData = JSON.parse(responseBody);",
 							"",
 							"tests[\"Status code is 200\"] = responseCode.code === 200;",
-							"console.log(\"Number of businnesses with search requirements is \"+jsonData.total)",
+							"console.log(\"Number of businnesses with search requirements is \"+jsonData.total);",
+							"console.log(responseBody);",
 							"tests[\"Number of businesses is greater than zero for '\"+postman.getEnvironmentVariable('term')+\"', price is \"+postman.getEnvironmentVariable('price')] = jsonData.total > 0;",
 							"tests[\"Make sure that number of businesses is less previous\"] = jsonData.total < postman.getEnvironmentVariable('nbusinesses');",
 							""

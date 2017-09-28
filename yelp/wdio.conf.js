@@ -1,3 +1,7 @@
+var CustomReporter = require('./js/reporter/Customreporter');
+var htmlReporter = require('./js/reporter/htmlReporter');
+htmlReporter.reporterName = 'htmlReporter';
+
 exports.config = {
     
     //
@@ -103,7 +107,8 @@ exports.config = {
     // WebdriverCSS: https://github.com/webdriverio/webdrivercss
     // WebdriverRTC: https://github.com/webdriverio/webdriverrtc
     // Browserevent: https://github.com/webdriverio/browserevent
-    // plugins: {
+    plugins: {
+    //     "wdio-screenshot": {}
     //     webdrivercss: {
     //         screenshotRoot: 'my-shots',
     //         failedComparisonsRoot: 'diffs',
@@ -112,7 +117,7 @@ exports.config = {
     //     },
     //     webdriverrtc: {},
     //     browserevent: {}
-    // },
+    },
     //
     // Test runner services
     // Services take over a specific job you don't want to take care of. They enhance
@@ -130,7 +135,8 @@ exports.config = {
     // Test reporter for stdout.
     // The only one supported by default is 'dot'
     // see also: http://webdriver.io/guide/testrunner/reporters.html
-    reporters: ['spec','junit'],
+    reporters: ['spec','junit','json'],
+    //reporters: ['spec','junit'],
     reporterOptions: {
         outputDir: 'reports/',
         junit: {

@@ -20,7 +20,6 @@ if (mainScr != null) {
     search1 = mainScr.get("searches")[0];
     search2 = mainScr.get("searches")[1];
 }
-var iTest = 1;
 var businessName;
 
 if (config.browser == null) config.browser = 'chrome';
@@ -53,69 +52,84 @@ if (program.headless != null) {
 }
 console.log("platflorm="+process.platform+" headlessPath="+path);
 
-describe('Search yelp.com '+search1+' - '+search2, function() {
-    var searchResult = "";
-//    describe('#main()',     function() {
+var bContinue = true;
+describe('Search yelp.com '+search1+' via link', function() {
+    var iTest = 1;
         it(("000"+iTest++).slice(-4) + ': should have the right title - the fancy generator way', function () {
             //browser.remote(options);
             browser.url(config.get("url"));
             var title = browser.getTitle();
             assert.ok(title.indexOf('Restaurants, Dentists, Bars, Beauty Salons, Doctors - Yelp') > -1,'You are not on Yelp home page');
         });
-//    });
-    var xpathFilters = mainScr.get("fields.filters.xpath");
-//    describe('#indexSearch()', function() {
         it(("000"+iTest++).slice(-4) + ': Search by category: '+search1, function () {
             var search = search1 + ' - ';
             if (browser.isExisting('.homepage-hero_link='+search1) ) {
                 browser.click('.homepage-hero_link='+search1);
                 browser.waitForVisible(mainScr.get("fields.resultsSummary.xpath"),5000);
-                assert.equal(browser.getTitle().indexOf('The Best 10 '+search1),0,'You are not on Yelp '+search1+' result page.  '+browser.getTitle());
+                assert.equal(browser.getTitle().indexOf('The Best 10 '+search1),0,"Title does not start with 'The Best 10 "+search1+"'.  Actual tile is '"+browser.getTitle()+"'");
             }
             else if (browser.isExisting('input#find_desc') ) {
                 console.log("Link "+search1+ " does not exists.  Will use input box for ", browser.getValue('input#find_desc') + " search");
                 browser.setValue('input#find_desc', search1+"\n");
                 browser.click('#header-search-submit');
-                assert.ok(browser.getTitle().indexOf(search1) >= 0,'You are not on Yelp "'+search1+'" result page.  '+browser.getTitle());
+                assert.ok(browser.getTitle().indexOf(search1) >= 0,"Title does not contained '"+search1+"'.  Actual title is '"+browser.getTitle()+"'");
             }
             else {
                 captureFile = "reports/capture-"+(curTime++)+".jpg";
                 console.error("Cannot search by " + search1 + ".  Save screen to " + captureFile+(fs.writeFileSync(captureFile,browser.saveScreenshot())===undefined?"":""));
             }
         });
-//    });
+});
+describe("Search yelp.com '"+search1+" - "+search2 + "' via description with detail first result.", function() {
+    var searchResult = "";
+    var iTest = 1;
+    var xpathFilters = mainScr.get("fields.filters.xpath");
     var search = search1 + ' - ' + search2;
-//    describe('#descriptionSearch()', function() {
-        it(("000"+iTest++).slice(-4) + ': Search by description: '+search, function () {
+    beforeEach(function() {
+        if (!bContinue) {
+            this.skip();
+        }
+        bContinue = false;
+    });
+
+        it(("000"+iTest++).slice(-4) + ": Search by description: '"+search+"'", function () {
+            browser.url(config.get("url"));
+            var title = browser.getTitle();
             browser.setValue('input#find_desc', search);
             browser.click('#header-search-submit');
             captureFile = "reports/capture-"+(curTime++)+".jpg";
-            browser.waitUntil(function () {
-                return browser.getTitle().indexOf('Best '+search) == 0;
-            }, 10000, 'expected page to be ' + search + ' in 10s.  Save screen capture to ' + captureFile+(fs.writeFileSync(captureFile,browser.saveScreenshot())===undefined?"":""));
-            assert.equal(browser.getTitle().indexOf('Best '+search),0,'You are not Yelp ' + search + ' result page');
+            browser.waitUntil(
+                function () {
+                    return browser.getTitle().indexOf('Best '+search) == 0;
+                }, 10000, 
+                "expected page to be '" + search + "' in 10s.  Save screen capture to " 
+                     + captureFile+(fs.writeFileSync(captureFile,browser.saveScreenshot())===undefined?"":"")
+            );
+            assert.equal(browser.getTitle().indexOf('Best '+search),0,"Title does not start with 'Best "+search);
             var elem = browser.element('[name="find_loc"]');
             console.log("Search location is "+browser.getValue('[name="find_loc"]'));
             browser.waitForVisible(xpathFilters,10000);
             browser.click(xpathFilters);
             searchResult = browser.getText('.pagination-results-window')
+            bContinue = true;
         });
-//    });
-//    describe('#applyFilters()',     function() {
         mainScr.get("filters").forEach(function(filter) {
             it(("000"+iTest++).slice(-4) + ': Do Filter - '+filter.name, function () {
                 console.log("Applying filter '"+filter.name+"'");
                 browser.click(filter.xpath);
                 captureFile = "reports/capture-"+(curTime++)+".jpg";
-                browser.waitUntil(function () {
-                    return browser.getText('.pagination-results-window') !== searchResult;
-                }, 10000, 'Filter price is not getting selected.' + captureFile+(fs.writeFileSync(captureFile,browser.saveScreenshot())===undefined?"":""));
+                browser.waitUntil(
+                    function () {
+                        return browser.getText('.pagination-results-window') !== searchResult;
+                    }, 10000, 
+                    'Filter price is not getting selected.' 
+                        + captureFile+(fs.writeFileSync(captureFile,browser.saveScreenshot())===undefined?"":"")
+                );
                 searchResult = browser.getText('.pagination-results-window');
+                bContinue = true;
             });
         });
-//    });
-//    describe('#printPage()',     function() {
-        it(("000"+iTest++).slice(-4) + ': What is results', function() {
+        it(("000"+iTest++).slice(-4) + ': Verify results of search and filters', function() {
             browser.waitForVisible(mainScr.get("fields.resultsSummary.xpath"),5000);
             searchResult = browser.getText('.pagination-results-window');
             // Look for number of results found in 'Showing 1-10 of 1725'
@@ -123,8 +137,6 @@ describe('Search yelp.com '+search1+' - '+search2, function() {
             assert.ok(nFound.length > 1,'The number of results found is not greater than zero');
             console.log('There are '+nFound[2]+' places found from search');
             console.log('Current page has '+nFound[1]+' records');
-        });
-        it(("000"+iTest++).slice(-4) + ': Show first page search results star rating', function() {
             var results = browser.elements(mainScr.get("fields.resultsContent.xpath"))
             console.log("Number of records found " + results.value.length);
             var i = 0;
@@ -141,27 +153,24 @@ describe('Search yelp.com '+search1+' - '+search2, function() {
                i++;
             });
             businessName = browser.element(mainScr.get("fields.resultsContent.xpath") + '[1]').element('.biz-name').getText('span');
+            bContinue = true;
         });
-//    });
-//});
-//describe('Detail of Search',     function() {
     var detailScr = config.get("screens.detail");
-//    describe('#summary()',     function() {
-        it(("000"+iTest++).slice(-4) + ': Get item Detail', function() {
+        it(("000"+iTest++).slice(-4) + ': Click on first result.', function() {
             var elem = browser.element(mainScr.get("fields.resultsContent.xpath") + '[1]');
             var bznameElem = elem.element('.biz-name');
             var bzname = bznameElem.getText('span');
             console.log("Anh "+bzname+" "+businessName);
             bznameElem.click();
             captureFile = "reports/capture-"+(curTime++)+".jpg";
-            browser.waitUntil(function () {
-                return browser.getTitle().indexOf(bzname) == 0;
-            }, 10000, 'Detail page is not getting load.' + captureFile+(fs.writeFileSync(captureFile,browser.saveScreenshot())===undefined?"":""));
+            browser.waitUntil(
+                function () {
+                    return browser.getTitle().indexOf(bzname) == 0;
+                }, 10000, 
+                'Detail page is not getting load.' 
+                    + captureFile+(fs.writeFileSync(captureFile,browser.saveScreenshot())===undefined?"":"")
+            );
             assert.equal(browser.getTitle().indexOf(bzname),0,'You are not at '+bzname+' page.');
-        });
-//    });
-//    describe('#reviews()',     function() {
-        it(("000"+iTest++).slice(-4) + ': Create XML file', function() {
             var XMLWriter = require('xml-writer');
             var ws = fs.createWriteStream(businessName+'.xml');
             ws.on('close', function() {
@@ -200,6 +209,6 @@ describe('Search yelp.com '+search1+' - '+search2, function() {
             xw.endElement('results');
             xw.endDocument();
             ws.end();
+            bContinue = true;
         });
-//    });
 });
